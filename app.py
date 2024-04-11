@@ -94,7 +94,7 @@ ui.page_opts(title="PyShiny Express: Live Data With Value Card (Font Awesome Ico
 
 # Sidebar is typically used for user interaction/information
 # Note the with statement to create the sidebar followed by a colon
-# Everything in the sidebar is indented consistently
+# Everything in the sidebar is indented consistently-
 
 with ui.sidebar(open="open"):
 
@@ -107,7 +107,7 @@ with ui.sidebar(open="open"):
   ui.h6("Links:")
   ui.a(
         "GitHub Source",
-        href="https://github.com/JackieGanyo/cintel-05-cintel,
+        href="https://github.com/JackieGanyo/cintel-05-cinteoopppol",
         target="_blank",
   )
   ui.a(
