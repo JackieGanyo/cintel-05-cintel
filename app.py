@@ -16,12 +16,8 @@ from collections import deque
 # Import pandas for working with data
 import pandas as pd
 
-# --------------------------------------------
-# Import icons as you like
-# --------------------------------------------
 # add favicons to your requirements.txt 
-# and install to active project virtual environment
-
+#https://fontawesome.com/search
 from faicons import icon_svg  
 
 
@@ -47,6 +43,7 @@ UPDATE_INTERVAL_SECS: int = 1
 DEQUE_SIZE: int = 5
 reactive_value_wrapper = reactive.value(deque(maxlen=DEQUE_SIZE))
 
+MAX_DEQUE_SIZE = 10
 
 # --------------------------------------------
 # Initialize a REACTIVE CALC that all display components can call
@@ -106,23 +103,26 @@ with ui.sidebar(open="open"):
   ui.hr()
   ui.h6("Links:")
   ui.a(
-        "GitHub Source",
+        "GitHub Source - J Ganyo",
         href="https://github.com/JackieGanyo/cintel-05-cinteoopppol",
         target="_blank",
   )
   ui.a(
-        "GitHub App",
+        "GitHub App - J Ganyo",
         href="https://JackieGanyo.github.io/cintel-05-cintel",
-        target="_blank",
+        target="_blank"
   )
-  ui.a("PyShiny", href="https://shiny.posit.co/py/", target="_blank")
+  ui.a("PyShiny", href="https://shiny.posit.co/py/", 
+       target="_blank"
+  )
 
 # In Shiny Express, everything not in the sidebar is in the main panel
 
 with ui.layout_columns():
     with ui.value_box(
-        showcase=icon_svg("sun"),
-        theme="bg-gradient-blue-purple",
+    
+        showcase=icon_svg("temperature-arrow-up"),
+        theme="bg-info"
     ):
 
         "Current Temperature"
@@ -153,4 +153,4 @@ with ui.layout_columns():
 
 with ui.layout_columns():
     with ui.card():
-        ui.card_header("Current Chart (placeholder only)")
+        ui.card_header("Current Chart (placeholder on
