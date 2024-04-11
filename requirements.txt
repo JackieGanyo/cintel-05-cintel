@@ -1,3 +1,8 @@
-faicons
-shiny
-shinylive
+from faicons import icon_svg
+from shiny import App, reactive, render
+from shiny.express import ui
+import random
+from datetime import datetime
+from collections import deque
+import pandas as pd
+import plotly.express as px
