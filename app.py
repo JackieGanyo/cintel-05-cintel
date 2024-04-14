@@ -20,6 +20,9 @@ import pandas as pd
 #https://fontawesome.com/search
 from faicons import icon_svg  
 
+#Import graphing utility
+import plotly.express as px
+from shinywidgets import render_plotly
 
 # --------------------------------------------
 # Shiny EXPRESS VERSION
@@ -31,7 +34,7 @@ from faicons import icon_svg
 # Use a type hint to make it clear that it's an integer (: int)
 # --------------------------------------------
 
-UPDATE_INTERVAL_SECS: int = 1
+UPDATE_INTERVAL_SECS: int = 10
 
 # --------------------------------------------
 # Initialize a REACTIVE VALUE with a common data structure
@@ -146,11 +149,41 @@ with ui.layout_columns():
             deque_snapshot, df, latest_dictionary_entry = reactive_calc_combined()
             return f"{latest_dictionary_entry['timestamp']}"
 
-
+#Display the Data Frame
 with ui.layout_columns():
     with ui.card():
-        ui.card_header("Current Data (placeholder only)")
-
+        ui.card_header("Current Data") 
+        @render.data_frame
+        def display_df():
+            """Get the latest reading and return a dataframe with current readings"""
+            deque_snapshot, df, latest_dictionary_entry = reactive_calc_combined()
+            pd.set_option('display.width', None)        # Use maximum width
+            return render.DataGrid(df, width="100%") 
+            
 with ui.layout_columns():
     with ui.card():
-        ui.card_header("Current Chart (placeholder on
+        ui.card_header("Current Temperature Trend")
+          # Initialize an empty figure
+        fig = px.line(title="Current Temperature Trend", 
+                      labels={"temp": "Temperature (°C)", 
+                              "timestamp": "Time"})
+        @render_plotly
+        def display_plot():
+            #Retrieve data from the reactive calc function
+            deque_snapshot, df, latest_dictionary_entry=reactive_calc_combined()
+
+ # Ensure the DataFrame is not empty before updating the plot
+            if not df.empty:
+                # Convert the 'timestamp' column to datetime for better plotting
+                df["timestamp"] = pd.to_datetime(df["timestamp"])
+
+                # Add trace for temperature data
+                fig.add_scatter(x=df["timestamp"], y=df["temp"], mode="lines", name="Temperature")
+
+                # Configure animation settings
+                fig.update_layout(updatemenus=[dict(type="buttons", showactive=False, buttons=[dict(label="Play", method="animate", args=[None, {"fromcurrent": True}]),])])
+
+                # Update layout as needed to customize further
+                fig.update_layout(xaxis_title="Time", yaxis_title="Temperature (°C)")
+
+            return fig
